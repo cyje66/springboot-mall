@@ -1,6 +1,7 @@
 package com.eddie.springbootmall.controller;
 
 import com.eddie.springbootmall.constant.ProductCategory;
+import com.eddie.springbootmall.dto.ProductQueryParams;
 import com.eddie.springbootmall.dto.ProductRequest;
 import com.eddie.springbootmall.model.Product;
 import com.eddie.springbootmall.service.ProductService;
@@ -22,8 +23,12 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProducts(
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search
-            ) {
-        List<Product> productList = productService.getProducts(category, search);
+    ) {
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
